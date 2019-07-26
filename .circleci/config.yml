@@ -1,6 +1,6 @@
 version: 2.1
 jobs:
-  build:
+  init:
     docker:
       - image: hashicorp/terraform:0.12.5
     steps:
@@ -10,8 +10,23 @@ jobs:
           command: |
             cd infra/
             terraform init
+  plan:
+    docker:
+      - image: hashicorp/terraform:0.12.5
+    steps:
+      - checkout
+      - run:
+          name: Create Terraform plan
+          command: |
+            cd infra/
+            export TF_VAR_access_key=$ALI_ACCESS_KEY
+            export TF_VAR_secret_key=$ALI_SECRET_KEY
+            terraform plan -input=false -out tf.plan
 workflows:
   version: 2
-  build_and_deploy:
+  build-deploy:
     jobs:
       - build
+      - plan:
+          requires:
+            - build
