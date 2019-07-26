@@ -1,0 +1,8 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: hashicorp/terraform:0.12.5
+    steps:
+      - checkout
+      - run: terraform init
