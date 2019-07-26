@@ -3,43 +3,55 @@ jobs:
   init:
     docker:
       - image: hashicorp/terraform:0.12.5
-    working_directory: infra
+    working_directory: /tmp/workspace
     steps:
       - checkout
       - run:
           name: Initialize Terraform
           command: |
+            cd infra/
             terraform init
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - infra/.terraform
+
   plan:
     docker:
       - image: hashicorp/terraform:0.12.5
-    working_directory: infra
+    working_directory: /tmp/workspace
     steps:
       - checkout
+      - attach_workspace:
+          at: /tmp/workspace
       - run:
           name: Create Terraform plan
           command: |
+            cd infra/
             export TF_VAR_access_key=$ALI_ACCESS_KEY
             export TF_VAR_secret_key=$ALI_SECRET_KEY
             terraform plan -input=false -out tf.plan
       - persist_to_workspace:
-          root: .
+          root: /tmp/workspace
           paths:
-            - tf.plan
+            - infra/tf.plan
+
   apply:
     docker:
       - image: hashicorp/terraform:0.12.5
-    working_directory: infra
+    working_directory: /tmp/workspace
     steps:
       - checkout
       - attach_workspace:
-          at: .
+          at: /tmp/workspace
       - run:
           name: Apply Terraform plan
           command: |
+            cd infra/
             export TF_VAR_access_key=$ALI_ACCESS_KEY
             export TF_VAR_secret_key=$ALI_SECRET_KEY
             terraform apply tf.plan
+
 workflows:
   version: 2
   init-plan-apply:
