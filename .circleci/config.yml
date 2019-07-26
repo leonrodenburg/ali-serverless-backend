@@ -6,3 +6,8 @@ jobs:
     steps:
       - checkout
       - run: terraform init
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
