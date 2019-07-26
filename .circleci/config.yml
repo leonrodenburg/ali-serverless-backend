@@ -24,9 +24,9 @@ jobs:
             terraform plan -input=false -out tf.plan
 workflows:
   version: 2
-  build-deploy:
+  init-plan-apply:
     jobs:
-      - build
+      - init
       - plan:
           requires:
             - build
