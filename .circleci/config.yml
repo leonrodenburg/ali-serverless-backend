@@ -5,6 +5,7 @@ jobs:
       - image: hashicorp/terraform:0.12.5
     steps:
       - checkout
+      - run: cd infra/
       - run: terraform init
 workflows:
   version: 2
