@@ -5,10 +5,13 @@ jobs:
       - image: hashicorp/terraform:0.12.5
     steps:
       - checkout
-      - run: cd infra/
-      - run: terraform init
+      - run:
+          name: Initialize Terraform
+          command: |
+            cd infra/
+            terraform init
 workflows:
   version: 2
-  build_and_test:
+  build_and_deploy:
     jobs:
       - build
