@@ -28,8 +28,6 @@ jobs:
           name: Create Terraform plan
           command: |
             cd infra/
-            export TF_VAR_access_key=$ALI_ACCESS_KEY
-            export TF_VAR_secret_key=$ALI_SECRET_KEY
             terraform plan -input=false -out tf.plan
       - persist_to_workspace:
           root: /tmp/workspace
@@ -48,8 +46,6 @@ jobs:
           name: Apply Terraform plan
           command: |
             cd infra/
-            export TF_VAR_access_key=$ALI_ACCESS_KEY
-            export TF_VAR_secret_key=$ALI_SECRET_KEY
             terraform apply tf.plan
 
 workflows:
