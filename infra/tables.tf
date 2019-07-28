@@ -6,6 +6,7 @@
 # ---------------
 resource "alicloud_ots_instance" "serverless" {
   name = "serverless"
+  instance_type = "Capacity"
 }
 
 resource "alicloud_ots_table" "profile" {
