@@ -45,7 +45,7 @@ jobs:
       - persist_to_workspace:
           root: /tmp/workspace
           paths:
-            - src/profile/profile-$CIRCLE_SHA1.zip
+            - src/profile/*.zip
 
   upload_profile_function:
     docker:
