@@ -49,7 +49,7 @@ jobs:
 
   upload_profile_function:
     docker:
-      - image: sparkfabrik/docker-aliyuncli:3.0.16
+      - image: leonrodenburg/aliyun-cli:3.0.22
     working_directory: /tmp/workspace
     steps:
       - checkout
