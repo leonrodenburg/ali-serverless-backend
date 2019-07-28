@@ -50,6 +50,10 @@ jobs:
   upload_profile_function:
     docker:
       - image: leonrodenburg/aliyun-cli:3.0.22
+    environment:
+      REGION: $ALICLOUD_REGION
+      ACCESS_KEY_ID: $ALICLOUD_ACCESS_KEY
+      ACCESS_KEY_SECRET: $ALICLOUD_SECRET_KEY
     working_directory: /tmp/workspace
     steps:
       - checkout
