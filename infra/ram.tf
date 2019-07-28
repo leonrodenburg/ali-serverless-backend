@@ -36,7 +36,7 @@ resource "alicloud_ram_policy" "table-store-access" {
       "Statement": [
         {
           "Action": [
-            "ots:*",
+            "ots:*"
           ],
           "Effect": "Allow",
           "Resource": [
@@ -59,7 +59,7 @@ resource "alicloud_ram_policy" "log-access" {
       "Statement": [
         {
           "Action": [
-            "log:*",
+            "log:*"
           ],
           "Effect": "Allow",
           "Resource": [
@@ -73,14 +73,14 @@ resource "alicloud_ram_policy" "log-access" {
 }
 
 resource "alicloud_ram_role_policy_attachment" "table-store-access-attachment" {
-  policy_name = alicloud_ram_policy.table-store-access
-  policy_type = "CUSTOM"
-  role_name = alicloud_ram_role.function-execution-role
+  policy_name = alicloud_ram_policy.table-store-access.name
+  policy_type = "Custom"
+  role_name = alicloud_ram_role.function-execution-role.name
 }
 
 resource "alicloud_ram_role_policy_attachment" "log-access-attachment" {
-  policy_name = alicloud_ram_policy.log-access
-  policy_type = "CUSTOM"
-  role_name = alicloud_ram_role.function-execution-role
+  policy_name = alicloud_ram_policy.log-access.name
+  policy_type = "Custom"
+  role_name = alicloud_ram_role.function-execution-role.name
 }
 

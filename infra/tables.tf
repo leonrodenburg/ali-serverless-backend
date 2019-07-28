@@ -13,12 +13,11 @@ resource "alicloud_ots_table" "profile" {
   table_name = "profile"
   max_version = 1
   time_to_live = -1
-  primary_key = [
-    {
-      name = "userId"
-      type = "String"
-    }
-  ]
+
+  primary_key {
+    name = "userId"
+    type = "String"
+  }
 }
 
 resource "alicloud_ots_table" "project" {
@@ -26,14 +25,14 @@ resource "alicloud_ots_table" "project" {
   table_name = "project"
   max_version = 1
   time_to_live = -1
-  primary_key = [
-    {
-      name = "userId"
-      type = "String"
-    },
-    {
-      name = "projectId"
-      type = "String"
-    }
-  ]
+
+  primary_key {
+    name = "userId"
+    type = "String"
+  }
+
+  primary_key {
+    name = "projectId"
+    type = "String"
+  }
 }
