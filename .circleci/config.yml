@@ -75,7 +75,7 @@ jobs:
           name: Create Terraform plan
           command: |
             cd infra/
-            export TF_VAR_profile-zip-key=profile-$CIRCLE_SHA1.zip
+            export TF_VAR_profile_oss_key=profile-$CIRCLE_SHA1.zip
             terraform plan -input=false -out tf.plan
       - persist_to_workspace:
           root: /tmp/workspace

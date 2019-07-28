@@ -4,7 +4,7 @@
 # profile: Stores user profile data. Primary key consists of only the userId.
 # projects: Used to store the users' projects. Primary key is composite, containing both userId and projectId
 # ---------------
-variable "profile-zip-key" {
+variable "profile_oss_key" {
   default = "profile.zip"
 }
 
@@ -29,5 +29,5 @@ resource "alicloud_fc_function" "profile" {
   handler = "function.handler"
 
   oss_bucket = alicloud_oss_bucket.serverless-code.id
-  oss_key = var.profile-zip-key
+  oss_key = var.profile_oss_key
 }
