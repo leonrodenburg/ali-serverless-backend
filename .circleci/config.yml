@@ -40,7 +40,7 @@ jobs:
           name: Build profile function
           command: |
             cd src/profile
-            pip install -t . requirements.txt
+            pip install -t . -r requirements.txt
             zip -r profile-$CIRCLE_SHA1.zip .
       - persist_to_workspace:
           root: /tmp/workspace
