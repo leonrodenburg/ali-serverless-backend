@@ -50,10 +50,6 @@ jobs:
   upload_profile_function:
     docker:
       - image: leonrodenburg/aliyun-cli:3.0.22
-    environment:
-      REGION: $ALICLOUD_REGION
-      ACCESS_KEY_ID: $ALICLOUD_ACCESS_KEY
-      ACCESS_KEY_SECRET: $ALICLOUD_SECRET_KEY
     working_directory: /tmp/workspace
     steps:
       - checkout
@@ -62,14 +58,15 @@ jobs:
       - run:
           name: Upload functions to OSS
           command: |
+            export REGION=$ALICLOUD_REGION
+            export ACCESS_KEY_ID=$ALICLOUD_ACCESS_KEY
+            export ACCESS_KEY_SECRET=$ALICLOUD_SECRET_KEY
             aliyun oss cp src/profile/profile-$CIRCLE_SHA1.zip oss://$OSS_CODE_BUCKET/profile-$CIRCLE_SHA1.zip
 
   plan_infra:
     docker:
       - image: hashicorp/terraform:0.12.5
     working_directory: /tmp/workspace
-    environment:
-      TF_VAR_profile-zip-key: profile-$CIRCLE_SHA1.zip
     steps:
       - checkout
       - attach_workspace:
@@ -78,6 +75,7 @@ jobs:
           name: Create Terraform plan
           command: |
             cd infra/
+            export TF_VAR_profile-zip-key=profile-$CIRCLE_SHA1.zip
             terraform plan -input=false -out tf.plan
       - persist_to_workspace:
           root: /tmp/workspace
