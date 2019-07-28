@@ -1,6 +1,5 @@
 # ---------------
 # Log Service project and store.
-# For simplicity sake both functions write to the same store.
 # ---------------
 resource "alicloud_log_project" "serverless" {
   name = "serverless-logs-project"

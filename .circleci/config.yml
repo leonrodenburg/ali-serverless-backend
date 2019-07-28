@@ -16,7 +16,51 @@ jobs:
           paths:
             - infra/.terraform
 
-  plan:
+  create_bucket:
+    docker:
+      - image: hashicorp/terraform:0.12.5
+    working_directory: /tmp/workspace
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Create bucket to host Function Compute code
+          command: |
+            cd infra/
+            terraform apply -target=alicloud_oss_bucket.serverless-code
+
+  build_profile_function:
+    docker:
+      - image: circleci/python:3.6.4
+    working_directory: /tmp/workspace
+    steps:
+      - checkout
+      - run:
+          name: Build profile function
+          command: |
+            cd src/profile
+            pip install -t . requirements.txt
+            zip -r profile-$CIRCLE_SHA1.zip .
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - src/profile/profile-$CIRCLE_SHA1.zip
+
+  upload_profile_function:
+    docker:
+      - image: sparkfabrik/docker-aliyuncli:3.0.16
+    working_directory: /tmp/workspace
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Upload functions to OSS
+          command: |
+            aliyun oss cp src/profile/profile-$CIRCLE_SHA1.zip oss://$OSS_CODE_BUCKET/profile-$CIRCLE_SHA1.zip
+
+  plan_infra:
     docker:
       - image: hashicorp/terraform:0.12.5
     working_directory: /tmp/workspace
@@ -28,13 +72,14 @@ jobs:
           name: Create Terraform plan
           command: |
             cd infra/
+            export TF_VAR_profile-zip-key=profile-$CIRCLE_SHA1.zip
             terraform plan -input=false -out tf.plan
       - persist_to_workspace:
           root: /tmp/workspace
           paths:
             - infra/tf.plan
 
-  apply:
+  apply_infra:
     docker:
       - image: hashicorp/terraform:0.12.5
     working_directory: /tmp/workspace
@@ -50,12 +95,21 @@ jobs:
 
 workflows:
   version: 2
-  init-plan-apply:
+  build-init-plan-apply:
     jobs:
       - init
-      - plan:
+      - create_bucket:
           requires:
             - init
-      - apply:
+      - build_profile_function:
           requires:
-            - plan
+            - create_bucket
+      - upload_profile_function:
+          requires:
+            - build_profile_function
+      - plan_infra:
+          requires:
+            - upload_profile_function
+      - apply_infra:
+          requires:
+            - plan_infra
