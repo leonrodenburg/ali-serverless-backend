@@ -64,6 +64,8 @@ jobs:
     docker:
       - image: hashicorp/terraform:0.12.5
     working_directory: /tmp/workspace
+    environment:
+      TF_VAR_profile-zip-key: profile-$CIRCLE_SHA1.zip
     steps:
       - checkout
       - attach_workspace:
@@ -72,7 +74,6 @@ jobs:
           name: Create Terraform plan
           command: |
             cd infra/
-            export TF_VAR_profile-zip-key=profile-$CIRCLE_SHA1.zip
             terraform plan -input=false -out tf.plan
       - persist_to_workspace:
           root: /tmp/workspace

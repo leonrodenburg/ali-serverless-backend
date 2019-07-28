@@ -4,7 +4,9 @@
 # profile: Stores user profile data. Primary key consists of only the userId.
 # projects: Used to store the users' projects. Primary key is composite, containing both userId and projectId
 # ---------------
-variable "profile-zip-key" {}
+variable "profile-zip-key" {
+  default = "profile.zip"
+}
 
 resource "alicloud_fc_service" "serverless" {
   name = "serverless"
