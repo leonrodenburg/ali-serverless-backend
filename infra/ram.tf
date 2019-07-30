@@ -86,6 +86,7 @@ resource "alicloud_ram_role_policy_attachment" "log-access-attachment" {
 
 resource "alicloud_ram_role" "gateway-role" {
   name = "gateway-role"
+  force = true
   document = <<EOF
     {
       "Statement": [
@@ -102,7 +103,6 @@ resource "alicloud_ram_role" "gateway-role" {
       "Version": "1"
     }
     EOF
-  force = true
 }
 
 resource "alicloud_ram_policy" "function-compute-access" {
@@ -117,7 +117,7 @@ resource "alicloud_ram_policy" "function-compute-access" {
           ],
           "Effect": "Allow",
           "Resource": [
-            "acs:fc:${var.region}:${var.account}:services/${alicloud_fc_service.serverless.name}/functions/${alicloud_fc_function.profile.name}
+            "acs:fc:${var.region}:${var.account}:services/${alicloud_fc_service.serverless.name}/functions/${alicloud_fc_function.profile.name}"
           ]
         }
       ],
