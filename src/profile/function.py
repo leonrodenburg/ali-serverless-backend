@@ -1,6 +1,7 @@
 import json
 from typing import Dict, Any
 
+RawEvent = str
 Event = Dict[str, Any]
 Context = Dict[str, Any]
 
@@ -14,8 +15,10 @@ def get(event: Event) -> Dict[str, Any]:
     }
 
 
-def handler(event: Event, context: Context) -> str:
-    print("Got event:", event)
+def handler(raw_event: RawEvent, context: Context) -> str:
+    print("Got event:", raw_event)
+
+    event = json.loads(raw_event)
 
     result: Dict[str, Any]
     method = event["httpMethod"].upper()
