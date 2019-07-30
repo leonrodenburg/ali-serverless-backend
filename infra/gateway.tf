@@ -40,8 +40,4 @@ resource "alicloud_api_gateway_api" "profile-api" {
     in_service = "HEAD"
     name_service = "X-User-Id"
   }
-
-  stage_names = [
-    "RELEASE"
-  ]
 }
