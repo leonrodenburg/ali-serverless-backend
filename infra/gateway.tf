@@ -21,6 +21,7 @@ resource "alicloud_api_gateway_api" "profile-api" {
     region = var.region
     service_name = alicloud_fc_service.serverless.name
     function_name = alicloud_fc_function.profile.name
+    arn_role = alicloud_ram_role.gateway-role.arn
     timeout = 3000
   }
 
