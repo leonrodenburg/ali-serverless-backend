@@ -39,7 +39,9 @@ jobs:
       - run:
           name: Build profile function
           command: |
+            pip install pipenv
             cd src/profile
+            pipenv lock -r > requirements.txt
             pip install -t . -r requirements.txt
             zip -r profile-$CIRCLE_SHA1.zip .
       - persist_to_workspace:
