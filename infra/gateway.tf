@@ -31,16 +31,14 @@ resource "alicloud_api_gateway_api" "profile-api" {
     mode = "MAPPING"
   }
 
-  request_parameters = [
-    {
-      name = "X-User-Id"
-      type = "STRING"
-      required = "REQUIRED"
-      in = "HEAD"
-      in_service = "HEAD"
-      name_service = "X-User-Id"
-    }
-  ]
+  request_parameters {
+    name = "X-User-Id"
+    type = "STRING"
+    required = "REQUIRED"
+    in = "HEAD"
+    in_service = "HEAD"
+    name_service = "X-User-Id"
+  }
 
   stage_names = [
     "RELEASE"
