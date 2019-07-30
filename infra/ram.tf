@@ -41,7 +41,7 @@ resource "alicloud_ram_policy" "table-store-access" {
           "Effect": "Allow",
           "Resource": [
             "acs:ots:${var.region}:${var.account}:instance/${alicloud_ots_instance.serverless.name}/",
-            "acs:ots:${var.region}:${var.account}:instance/${alicloud_ots_instance.serverless.name}/table/${alicloud_ots_table.profile.table_name}",
+            "acs:ots:${var.region}:${var.account}:instance/${alicloud_ots_instance.serverless.name}/table/${alicloud_ots_table.profile.table_name}"
           ]
         }
       ],
