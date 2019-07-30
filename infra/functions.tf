@@ -29,4 +29,10 @@ resource "alicloud_fc_function" "profile" {
 
   oss_bucket = alicloud_oss_bucket.serverless-code.id
   oss_key = var.profile_oss_key
+
+  environment_variables = {
+    OTS_INSTANCE_NAME = alicloud_ots_instance.serverless.name
+    OTS_ENDPOINT = "https://${alicloud_ots_instance.serverless.name}.eu-central-1.ots.aliyuncs.com"
+    OTS_TABLE_NAME = alicloud_ots_table.profile.table_name
+  }
 }
