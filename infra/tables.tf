@@ -10,7 +10,7 @@ resource "alicloud_ots_instance" "serverless" {
 
 resource "alicloud_ots_table" "profile" {
   instance_name = alicloud_ots_instance.serverless.name
-  table_name = "profile"
+  table_name = "Profile"
   max_version = 1
   time_to_live = -1
 
