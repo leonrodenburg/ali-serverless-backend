@@ -39,9 +39,9 @@ To deploy this in your own account, follow these steps:
 4. Install the dependencies for the Function Compute code in `src/profile` by using `pipenv`. More information on Pipenv can be [found here](https://docs.pipenv.org/en/latest/).
 5. Zip up the function.py file including the installed dependencies and name it `project.zip`. For inspiration, you can look at the CircleCI configuration in `.circleci/config.yml`. Specifically, have a look at the `build_profile_function` job for details.
 6. Update the `bucket.tf` file to create a differently named bucket for the Function Compute code. Because bucket names have to be globally unique, taking mine won't work.
-7. Create the bucket using the Terraform CLI: `terraform apply -target=alicloud_oss_bucket.serverless-code`
-8. Use any means at your disposal (console or CLI) to upload `project.zip` to the bucket you created in step 7.
-9. Deploy the terraform stack: `terraform apply`
+7. Create the bucket using the Terraform CLI: `cd infra && terraform apply -target=alicloud_oss_bucket.serverless-code`
+8. Use any means at your disposal (console or CLI) to upload `project.zip` (created in step 5) to the bucket you created in step 7.
+9. Deploy the terraform stack: `cd infra && terraform apply`
 
 ## Bug in Terraform provider
 
