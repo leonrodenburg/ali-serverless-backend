@@ -39,7 +39,7 @@ jobs:
       - run:
           name: Build profile function
           command: |
-            pip install pipenv
+            pip install --upgrade pip pipenv
             cd src/profile
             pipenv lock -r > requirements.txt
             pip install -t . -r requirements.txt
