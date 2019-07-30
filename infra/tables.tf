@@ -1,7 +1,7 @@
 # ---------------
 # Creates a single Table Store table in a single instance.
 #
-# profile: Stores user profile data. Primary key consists of the userId.
+# profile: Stores user profile data. Simple primary key with only the user ID.
 # ---------------
 resource "alicloud_ots_instance" "serverless" {
   name = "serverless"
@@ -15,7 +15,7 @@ resource "alicloud_ots_table" "profile" {
   time_to_live = -1
 
   primary_key {
-    name = "userId"
+    name = "id"
     type = "String"
   }
 }
