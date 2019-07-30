@@ -10,7 +10,7 @@ resource "alicloud_api_gateway_group" "serverless-backend" {
 }
 
 resource "alicloud_api_gateway_api" "profile-api" {
-  name = "profile"
+  name = "ProfileEndpoint"
   description = "Retrieves and updates profiles for users"
   auth_type = "ANONYMOUS"
   group_id = alicloud_api_gateway_group.serverless-backend.id
