@@ -1,8 +1,7 @@
 # ---------------
-# API Gateway that maps two paths:
+# API Gateway that maps a single path:
 #
 # /profile: Goes to the 'profile' Function Compute function
-# /project: Goes to the 'project' Function Compute function
 # ---------------
 resource "alicloud_api_gateway_group" "serverless-backend" {
   name = "ServerlessBackend"

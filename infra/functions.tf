@@ -1,8 +1,7 @@
 # ---------------
-# Creates two Table Store tables in a single instance.
+# Deploys a single Function Compute function.
 #
-# profile: Stores user profile data. Primary key consists of only the userId.
-# projects: Used to store the users' projects. Primary key is composite, containing both userId and projectId
+# profile: Stores and retrieves user profile data.
 # ---------------
 variable "profile_oss_key" {
   default = "profile.zip"
