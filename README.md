@@ -19,7 +19,7 @@ This project contains a ready-to-go configuration for CircleCI that will automat
 | ALICLOUD_SECRET_KEY | Secret key corresponding to access key                                                                                    |
 | ALICLOUD_REGION     | Region where you want to deploy                                                                                           |
 | OSS_CODE_BUCKET     | Bucket name that you set in `bucket.tf`. Bucket names should be globally unique so choose something that isn't taken yet. |
-| TF_VAR_account      | The ID of your account                                                                                                    |
+| TF_VAR_account      | The ID of your account, can be found under 'Security Settings'                                                            |
 | TF_VAR_region       | Again the region you want to deploy                                                                                       |
 
 5. Push to master and the pipeline should roll out the application in your account.
@@ -37,7 +37,7 @@ To deploy this in your own account, follow these steps:
    - `export TF_VAR_account="--ACCOUNT ID HERE--"`
    - `export TF_VAR_region="--REGION HERE--"`
 
-   You can find your access keys under the 'AccessKey' link when you hover over your profile picture in the Alibaba Cloud console. The account ID can be found under 'User info'. You can decide upon the region yourself.
+   You can find your access keys under the 'AccessKey' link when you hover over your profile picture in the Alibaba Cloud console. The account ID can be found under 'Security Settings'. You can decide upon the region yourself.
 
 4. Install the dependencies for the Function Compute code in `src/profile` by using `pipenv`. More information on Pipenv can be [found here](https://docs.pipenv.org/en/latest/).
 5. Zip up the function.py file including the installed dependencies and name it `project.zip`. For inspiration, you can look at the CircleCI configuration in `.circleci/config.yml`. Specifically, have a look at the `build_profile_function` job for details.
