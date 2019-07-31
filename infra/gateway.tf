@@ -29,6 +29,7 @@ resource "alicloud_api_gateway_api" "profile-api" {
     method = "ANY"
     path = "/profile"
     mode = "MAPPING"
+    body_format = "STREAM"
   }
 
   request_parameters {
