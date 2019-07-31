@@ -1,4 +1,5 @@
 import json
+import base64
 import os
 from typing import Dict, Any
 from tablestore import OTSClient, Row
@@ -49,6 +50,10 @@ def handler(raw_event: RawEvent, context: Context) -> str:
     if method == "GET":
         result = get(client, user_id)
     elif method == "POST" or method == "PUT":
+        body = event["body"]
+        if event["isBase64Encoded"]:
+            body = base64.b64decode(body)
+
         result = update(client, {"id": user_id}, json.loads(event["body"]))
     else:
         result = {"statusCode": 405, "body": {"error": "Method Not Allowed"}}
