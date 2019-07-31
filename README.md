@@ -6,9 +6,12 @@ To run this stack in your own account, you have two options. The first option is
 
 ## Deploying with CircleCI
 
-This project contains a ready-to-go configuration for CircleCI that will automatically deploy the resources in your account. To start, create a free CircleCI account and hook it up to your own fork of this repository. Then, when you push to master, the pipeline will roll out a new version of the stack and code automatically.
+This project contains a ready-to-go configuration for CircleCI that will automatically deploy the resources in your account. Folllow these steps to get it deployed.
 
-To make sure the environment is configured correctly, make sure these environment variables are set in your CircleCI configuration for the project:
+1. To start, create a free CircleCI account and hook it up to your own fork of this repository
+2. Manually create an OSS bucket that will contain the Terraform state
+3. Update `_provider.tf` to point to the bucket name and region of the bucket you just created
+4. Set the following environment variables in the CircleCI project (there's a small cog in the CircleCI dashboard on the top-right where you can configure your project):
 
 | Variable name       | Description                                                                                                               |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------- |
@@ -19,7 +22,7 @@ To make sure the environment is configured correctly, make sure these environmen
 | TF_VAR_account      | The ID of your account                                                                                                    |
 | TF_VAR_region       | Again the region you want to deploy                                                                                       |
 
-With these variables set, you should be good to go! A push to master should be enough.
+5. Push to master and the pipeline should roll out the application in your account.
 
 ## Manually deploying with Terraform CLI
 
@@ -39,9 +42,9 @@ To deploy this in your own account, follow these steps:
 4. Install the dependencies for the Function Compute code in `src/profile` by using `pipenv`. More information on Pipenv can be [found here](https://docs.pipenv.org/en/latest/).
 5. Zip up the function.py file including the installed dependencies and name it `project.zip`. For inspiration, you can look at the CircleCI configuration in `.circleci/config.yml`. Specifically, have a look at the `build_profile_function` job for details.
 6. Update the `bucket.tf` file to create a differently named bucket for the Function Compute code. Because bucket names have to be globally unique, taking mine won't work.
-7. Create the bucket using the Terraform CLI: `cd infra && terraform apply -target=alicloud_oss_bucket.serverless-code`
-8. Use any means at your disposal (console or CLI) to upload `project.zip` (created in step 5) to the bucket you created in step 7.
-9. Deploy the terraform stack: `cd infra && terraform apply`
+7. Create the bucket using the Terraform CLI: `terraform apply -target=alicloud_oss_bucket.serverless-code`
+8. Use any means at your disposal (console or CLI) to upload `project.zip` to the bucket you created in step 7.
+9. Deploy the terraform stack: `terraform apply`
 
 ## Bug in Terraform provider
 

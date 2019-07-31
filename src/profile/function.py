@@ -1,7 +1,7 @@
 import json
 import os
 from typing import Dict, Any
-from tablestore import OTSClient
+from tablestore import OTSClient, Row
 
 RawEvent = str
 Event = Dict[str, Any]
@@ -21,6 +21,14 @@ def get(client: OTSClient, user_id: str) -> Dict[str, Any]:
         return not_found()
 
 
+def update(client: OTSClient, user_id: str, data: Dict[str, Any]) -> Dict[str, Any]:
+    primary_key = [("id", user_id)]
+    attributes = {k: v for k, v in data if k != "id"}
+    row = to_row(primary_key, attributes)
+    client.put_row(OTS_TABLE_NAME, row)
+    return {"statusCode": 200, "body": extract_row(row)}
+
+
 def handler(raw_event: RawEvent, context: Context) -> str:
     print("Got event:", raw_event)
 
@@ -31,14 +39,17 @@ def handler(raw_event: RawEvent, context: Context) -> str:
         context.credentials.access_key_id,
         context.credentials.access_key_secret,
         OTS_INSTANCE_NAME,
-        sts_token=context.credentials.security_token
+        sts_token=context.credentials.security_token,
     )
 
     result: Dict[str, Any]
     method = event["httpMethod"].upper()
 
+    user_id = event["headers"]["X-User-Id"]
     if method == "GET":
-        result = get(client, event["headers"]["X-User-Id"])
+        result = get(client, user_id)
+    elif method == "POST" or method == "PUT":
+        result = update(client, {"id": user_id}, json.loads(event["body"]))
     else:
         result = {"statusCode": 405, "body": {"error": "Method Not Allowed"}}
 
@@ -57,6 +68,12 @@ def extract_row(row: Any) -> Dict[str, Any]:
         result[att[0]] = att[1]
 
     return result
+
+
+def to_row(pk: Dict[str, Any], attr: Dict[str, Any]) -> Row:
+    primary_key = [(k, v) for k, v in pk]
+    attribute_columns = [(k, v) for k, v in attr if k not in pk]
+    return Row(primary_key, attribute_columns=attribute_columns)
 
 
 def not_found() -> Dict[str, Any]:
