@@ -23,8 +23,10 @@ def get(client: OTSClient, user_id: str) -> Dict[str, Any]:
 
 
 def update(client: OTSClient, user_id: str, data: Dict[str, Any]) -> Dict[str, Any]:
-    primary_key = [("id", user_id)]
-    attributes = {k: v for k, v in data if k != "id"}
+    primary_key = {"id": user_id}
+    attributes = {k: v for k, v in data.items() if k != "id"}
+    print("Primary key: ", primary_key)
+    print("Attributes: ", attributes)
     row = to_row(primary_key, attributes)
     client.put_row(OTS_TABLE_NAME, row)
     return {"statusCode": 200, "body": extract_row(row)}
@@ -54,7 +56,7 @@ def handler(raw_event: RawEvent, context: Context) -> str:
         if event["isBase64Encoded"]:
             body = base64.b64decode(body)
 
-        result = update(client, {"id": user_id}, json.loads(event["body"]))
+        result = update(client, user_id, json.loads(body))
     else:
         result = {"statusCode": 405, "body": {"error": "Method Not Allowed"}}
 
@@ -76,8 +78,8 @@ def extract_row(row: Any) -> Dict[str, Any]:
 
 
 def to_row(pk: Dict[str, Any], attr: Dict[str, Any]) -> Row:
-    primary_key = [(k, v) for k, v in pk]
-    attribute_columns = [(k, v) for k, v in attr if k not in pk]
+    primary_key = [(k, v) for k, v in pk.items()]
+    attribute_columns = [(k, v) for k, v in attr.items() if k not in pk]
     return Row(primary_key, attribute_columns=attribute_columns)
 
 
