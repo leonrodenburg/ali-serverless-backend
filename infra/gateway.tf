@@ -26,21 +26,7 @@ resource "alicloud_api_gateway_api" "profile-api" {
 
   request_config {
     protocol = "HTTP"
-    method = "GET"
-    path = "/profile"
-    mode = "MAPPING"
-  }
-
-  request_config {
-    protocol = "HTTP"
-    method = "POST"
-    path = "/profile"
-    mode = "MAPPING"
-  }
-
-  request_config {
-    protocol = "HTTP"
-    method = "PUT"
+    method = "ANY"
     path = "/profile"
     mode = "MAPPING"
   }
