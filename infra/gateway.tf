@@ -31,6 +31,20 @@ resource "alicloud_api_gateway_api" "profile-api" {
     mode = "MAPPING"
   }
 
+  request_config {
+    protocol = "HTTP"
+    method = "POST"
+    path = "/profile"
+    mode = "MAPPING"
+  }
+
+  request_config {
+    protocol = "HTTP"
+    method = "PUT"
+    path = "/profile"
+    mode = "MAPPING"
+  }
+
   request_parameters {
     name = "X-User-Id"
     type = "STRING"
