@@ -48,4 +48,4 @@ To deploy this in your own account, follow these steps:
 
 ## Bug in Terraform provider
 
-Because of a bug in the Terraform provider for Alibaba Cloud, the API Gateway definition cannot include the `stage_names` property to automatically deploy the endpoints to staging or production. For now, you will have to manually go to the Alibaba Cloud console, go to API Gateway, click 'APIs' and click the 'Deploy' button next to the 'ProfileEndpoint' function. This should be fixed when version 1.53 of the provider is released (see [#1486](https://github.com/terraform-providers/terraform-provider-alicloud/pull/1486) for more info.)
+Because of a bug in the Terraform provider for Alibaba Cloud, the API Gateway definition cannot include the `stage_names` property to automatically deploy the endpoints to one or more environments. For now, you will have to manually go to the Alibaba Cloud console, go to API Gateway, click 'APIs' and click the 'Deploy' button next to the 'ProfileEndpoint' function. This should be fixed when version 1.53 of the provider is released (see [#1486](https://github.com/terraform-providers/terraform-provider-alicloud/pull/1486) for more info.)
